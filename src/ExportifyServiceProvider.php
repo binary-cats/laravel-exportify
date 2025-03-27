@@ -36,7 +36,7 @@ class ExportifyServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->app->singleton('exportify', function ($app) {
-            return new Exportify();
+            return new Exportify;
         });
     }
 }

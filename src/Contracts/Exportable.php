@@ -10,7 +10,6 @@ interface Exportable
      * Download the export.
      *
      * @param  array<string, mixed>  $parameters
-     * @return mixed
      */
     public function download(array $parameters = []): mixed;
 

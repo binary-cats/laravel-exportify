@@ -2,12 +2,12 @@
 
 namespace BinaryCats\Exportify\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use BinaryCats\Exportify\ExportifyServiceProvider;
 use BinaryCats\Exportify\Tests\Fixtures\ExportableLivewireFixture;
-use Livewire\LivewireServiceProvider;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Livewire\Livewire;
+use Livewire\LivewireServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
@@ -35,15 +35,14 @@ class TestCase extends Orchestra
         config()->set('database.default', 'sqlite');
 
         config()->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
 
-        
-         foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__ . '/../database/migrations') as $migration) {
+        foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__.'/../database/migrations') as $migration) {
             (include $migration->getRealPath())->up();
         }
-        
+
     }
 }

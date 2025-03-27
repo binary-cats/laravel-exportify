@@ -30,4 +30,4 @@ class BarExportable implements Exportable
     {
         return ['tag2', 'common'];
     }
-} 
+}

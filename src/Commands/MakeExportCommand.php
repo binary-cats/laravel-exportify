@@ -3,8 +3,8 @@
 namespace BinaryCats\Exportify\Commands;
 
 use Illuminate\Console\GeneratorCommand;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class MakeExportCommand extends GeneratorCommand
@@ -39,7 +39,7 @@ class MakeExportCommand extends GeneratorCommand
         $dryRun = $this->option('dry-run');
 
         $files = [
-            $this->getPath($this->qualifyClass($name))
+            $this->getPath($this->qualifyClass($name)),
         ];
 
         // Create factory if requested
@@ -84,7 +84,7 @@ class MakeExportCommand extends GeneratorCommand
      */
     protected function getStub(): string
     {
-        return __DIR__ . '/../../stubs/exportable.stub';
+        return __DIR__.'/../../stubs/exportable.stub';
     }
 
     /**
@@ -92,7 +92,7 @@ class MakeExportCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\\Exports';
+        return $rootNamespace.'\\Exports';
     }
 
     /**
@@ -100,28 +100,28 @@ class MakeExportCommand extends GeneratorCommand
      */
     protected function createFactory(string $name, bool $dryRun): string
     {
-        $className = Str::studly($name) . 'ExportFactory';
-        $namespace = $this->rootNamespace() . 'ExportFactories';
-        $path = $this->getPath($namespace . '\\' . $className);
+        $className = Str::studly($name).'ExportFactory';
+        $namespace = $this->rootNamespace().'ExportFactories';
+        $path = $this->getPath($namespace.'\\'.$className);
 
-        if (!$dryRun) {
+        if (! $dryRun) {
             $this->ensureDirectoryExists(dirname($path));
-            $stub = File::get(__DIR__ . '/../../stubs/exportable_factory.stub');
-            $exportClass = Str::studly($name) . 'Export';
+            $stub = File::get(__DIR__.'/../../stubs/exportable_factory.stub');
+            $exportClass = Str::studly($name).'Export';
             $content = str_replace(
                 [
                     '{{ namespace }}',
                     '{{ class }}',
                     '{{ exportableNamespace }}',
                     '{{ exportableClass }}',
-                    '{{ livewireClass }}'
+                    '{{ livewireClass }}',
                 ],
                 [
                     $namespace,
                     $className,
-                    $this->rootNamespace() . 'Exports',
+                    $this->rootNamespace().'Exports',
                     $exportClass,
-                    'Export' . Str::studly($name)
+                    'Export'.Str::studly($name),
                 ],
                 $stub
             );
@@ -136,26 +136,26 @@ class MakeExportCommand extends GeneratorCommand
      */
     protected function createPolicy(string $name, bool $dryRun): string
     {
-        $className = Str::studly($name) . 'ExportPolicy';
-        $namespace = $this->rootNamespace() . 'Policies';
-        $path = $this->getPath($namespace . '\\' . $className);
+        $className = Str::studly($name).'ExportPolicy';
+        $namespace = $this->rootNamespace().'Policies';
+        $path = $this->getPath($namespace.'\\'.$className);
 
-        if (!$dryRun) {
+        if (! $dryRun) {
             $this->ensureDirectoryExists(dirname($path));
-            $stub = File::get(__DIR__ . '/../../stubs/exportable_policy.stub');
-            $exportClass = Str::studly($name) . 'Export';
+            $stub = File::get(__DIR__.'/../../stubs/exportable_policy.stub');
+            $exportClass = Str::studly($name).'Export';
             $content = str_replace(
                 [
                     '{{ namespace }}',
                     '{{ class }}',
                     '{{ exportableNamespace }}',
-                    '{{ exportableClass }}'
+                    '{{ exportableClass }}',
                 ],
                 [
                     $namespace,
                     $className,
-                    $this->rootNamespace() . 'Exports',
-                    $exportClass
+                    $this->rootNamespace().'Exports',
+                    $exportClass,
                 ],
                 $stub
             );
@@ -170,36 +170,36 @@ class MakeExportCommand extends GeneratorCommand
      */
     protected function createLivewire(string $name, bool $dryRun): string
     {
-        $className = 'Export' . Str::studly($name);
-        $namespace = $this->rootNamespace() . 'Livewire';
-        $path = $this->getPath($namespace . '\\' . $className);
-        $viewName = 'export-' . Str::kebab($name);
+        $className = 'Export'.Str::studly($name);
+        $namespace = $this->rootNamespace().'Livewire';
+        $path = $this->getPath($namespace.'\\'.$className);
+        $viewName = 'export-'.Str::kebab($name);
 
-        if (!$dryRun) {
+        if (! $dryRun) {
             $this->ensureDirectoryExists(dirname($path));
-            $stub = File::get(__DIR__ . '/../../stubs/exportable_livewire.stub');
-            $factoryClass = Str::studly($name) . 'ExportFactory';
+            $stub = File::get(__DIR__.'/../../stubs/exportable_livewire.stub');
+            $factoryClass = Str::studly($name).'ExportFactory';
             $content = str_replace(
                 [
                     '{{ namespace }}',
                     '{{ class }}',
                     '{{ factoryNamespace }}',
                     '{{ factoryClass }}',
-                    '{{ view }}'
+                    '{{ view }}',
                 ],
                 [
                     $namespace,
                     $className,
-                    $this->rootNamespace() . 'ExportFactories',
+                    $this->rootNamespace().'ExportFactories',
                     $factoryClass,
-                    $viewName
+                    $viewName,
                 ],
                 $stub
             );
             File::put($path, $content);
 
             // Create the view file
-            $viewPath = resource_path('views/livewire/' . $viewName . '.blade.php');
+            $viewPath = resource_path('views/livewire/'.$viewName.'.blade.php');
             $this->ensureDirectoryExists(dirname($viewPath));
             File::put($viewPath, '<div><!-- TODO: Implement export view --></div>');
         }
@@ -223,13 +223,13 @@ class MakeExportCommand extends GeneratorCommand
                 default => 'exportable_livewire'
             };
 
-            $testClassName = $className . 'Test';
-            $testPath = base_path('tests/Feature/' . str_replace('app/', '', dirname($file)) . '/' . $testClassName . '.php');
-            $testNamespace = 'Tests\\Feature\\' . str_replace('/', '\\', str_replace('app/', '', dirname($file)));
+            $testClassName = $className.'Test';
+            $testPath = base_path('tests/Feature/'.str_replace('app/', '', dirname($file)).'/'.$testClassName.'.php');
+            $testNamespace = 'Tests\\Feature\\'.str_replace('/', '\\', str_replace('app/', '', dirname($file)));
 
-            if (!$dryRun) {
+            if (! $dryRun) {
                 $this->ensureDirectoryExists(dirname($testPath));
-                $stub = File::get(__DIR__ . '/../../stubs/' . $type . '_test.stub');
+                $stub = File::get(__DIR__.'/../../stubs/'.$type.'_test.stub');
 
                 $replacements = [
                     '{{ namespace }}' => $testNamespace,
@@ -239,25 +239,25 @@ class MakeExportCommand extends GeneratorCommand
                 // Add specific replacements based on type
                 switch ($type) {
                     case 'exportable':
-                        $replacements['{{ exportableNamespace }}'] = $this->rootNamespace() . 'Exports';
-                        $replacements['{{ exportableClass }}'] = Str::studly($name) . 'Export';
+                        $replacements['{{ exportableNamespace }}'] = $this->rootNamespace().'Exports';
+                        $replacements['{{ exportableClass }}'] = Str::studly($name).'Export';
                         break;
                     case 'exportable_factory':
-                        $replacements['{{ factoryNamespace }}'] = $this->rootNamespace() . 'ExportFactories';
-                        $replacements['{{ factoryClass }}'] = Str::studly($name) . 'ExportFactory';
+                        $replacements['{{ factoryNamespace }}'] = $this->rootNamespace().'ExportFactories';
+                        $replacements['{{ factoryClass }}'] = Str::studly($name).'ExportFactory';
                         break;
                     case 'exportable_policy':
-                        $replacements['{{ policyNamespace }}'] = $this->rootNamespace() . 'Policies';
-                        $replacements['{{ policyClass }}'] = Str::studly($name) . 'ExportPolicy';
-                        $replacements['{{ exportableNamespace }}'] = $this->rootNamespace() . 'Exports';
-                        $replacements['{{ exportableClass }}'] = Str::studly($name) . 'Export';
+                        $replacements['{{ policyNamespace }}'] = $this->rootNamespace().'Policies';
+                        $replacements['{{ policyClass }}'] = Str::studly($name).'ExportPolicy';
+                        $replacements['{{ exportableNamespace }}'] = $this->rootNamespace().'Exports';
+                        $replacements['{{ exportableClass }}'] = Str::studly($name).'Export';
                         break;
                     case 'exportable_livewire':
-                        $replacements['{{ livewireNamespace }}'] = $this->rootNamespace() . 'Livewire';
-                        $replacements['{{ livewireClass }}'] = 'Export' . Str::studly($name);
-                        $replacements['{{ factoryNamespace }}'] = $this->rootNamespace() . 'ExportFactories';
-                        $replacements['{{ factoryClass }}'] = Str::studly($name) . 'ExportFactory';
-                        $replacements['{{ view }}'] = 'export-' . Str::kebab($name);
+                        $replacements['{{ livewireNamespace }}'] = $this->rootNamespace().'Livewire';
+                        $replacements['{{ livewireClass }}'] = 'Export'.Str::studly($name);
+                        $replacements['{{ factoryNamespace }}'] = $this->rootNamespace().'ExportFactories';
+                        $replacements['{{ factoryClass }}'] = Str::studly($name).'ExportFactory';
+                        $replacements['{{ view }}'] = 'export-'.Str::kebab($name);
                         break;
                 }
 
@@ -294,8 +294,8 @@ class MakeExportCommand extends GeneratorCommand
      */
     protected function ensureDirectoryExists(string $path): void
     {
-        if (!File::isDirectory($path)) {
+        if (! File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true);
         }
     }
-} 
+}

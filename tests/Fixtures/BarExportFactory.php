@@ -2,14 +2,14 @@
 
 namespace BinaryCats\Exportify\Tests\Fixtures;
 
-use BinaryCats\Exportify\Contracts\ExportFactory;
 use BinaryCats\Exportify\Contracts\Exportable;
+use BinaryCats\Exportify\Contracts\ExportFactory;
 
 class BarExportFactory implements ExportFactory
 {
     public function exportable(array $attributes = []): Exportable
     {
-        return new BarExportable();
+        return new BarExportable;
     }
 
     public function defaults(): array

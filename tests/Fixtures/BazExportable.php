@@ -30,4 +30,4 @@ class BazExportable implements Exportable
     {
         return ['tag3', 'special'];
     }
-} 
+}

@@ -10,8 +10,7 @@ class Exportable extends Component
 {
     public function __construct(
         public readonly ExportFactory $exportFactory
-    ) {
-    }
+    ) {}
 
     /**
      * Get the contents that represent the exportable component.
@@ -20,4 +19,4 @@ class Exportable extends Component
     {
         return view('exportify::components.exportable');
     }
-} 
+}

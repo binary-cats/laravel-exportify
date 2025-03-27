@@ -15,7 +15,6 @@ interface ExportFactory
      * Make the exportable class using defaults and specified attributes.
      *
      * @param  array<string, mixed>  $attributes
-     * @return Exportable
      */
     public function exportable(array $attributes = []): Exportable;
 
@@ -25,4 +24,4 @@ interface ExportFactory
      * @return string|class-string
      */
     public function livewire(): string;
-} 
+}
