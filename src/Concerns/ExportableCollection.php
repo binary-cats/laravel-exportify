@@ -16,7 +16,7 @@ class ExportableCollection extends Collection
         $tags = Arr::wrap($tags);
 
         return $this->filter(function (ExportFactory $factory) use ($tags) {
-            
+
             $exportable = $factory->exportable();
 
             return collect($exportable->tags())
@@ -24,4 +24,4 @@ class ExportableCollection extends Collection
                 ->isNotEmpty();
         });
     }
-} 
+}

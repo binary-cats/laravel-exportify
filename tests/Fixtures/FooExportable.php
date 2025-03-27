@@ -30,4 +30,4 @@ class FooExportable implements Exportable
     {
         return ['tag1', 'common'];
     }
-} 
+}

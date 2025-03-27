@@ -2,14 +2,14 @@
 
 namespace BinaryCats\Exportify\Tests\Fixtures;
 
-use BinaryCats\Exportify\Contracts\ExportFactory;
 use BinaryCats\Exportify\Contracts\Exportable;
+use BinaryCats\Exportify\Contracts\ExportFactory;
 
 class BazExportFactory implements ExportFactory
 {
     public function exportable(array $attributes = []): Exportable
     {
-        return new BazExportable();
+        return new BazExportable;
     }
 
     public function defaults(): array
@@ -23,4 +23,4 @@ class BazExportFactory implements ExportFactory
     {
         return ExportableLivewireFixture::class;
     }
-} 
+}

@@ -1,19 +1,19 @@
 <?php
 
 use BinaryCats\Exportify\Concerns\ExportableCollection;
-use BinaryCats\Exportify\Contracts\ExportFactory;
 use BinaryCats\Exportify\Contracts\Exportable;
+use BinaryCats\Exportify\Contracts\ExportFactory;
+use BinaryCats\Exportify\Exceptions\ExportifyException;
 use BinaryCats\Exportify\Exportify;
-use BinaryCats\Exportify\Tests\Fixtures\FooExportFactory;
 use BinaryCats\Exportify\Tests\Fixtures\BarExportFactory;
 use BinaryCats\Exportify\Tests\Fixtures\BazExportFactory;
-use BinaryCats\Exportify\Exceptions\ExportifyException;
+use BinaryCats\Exportify\Tests\Fixtures\FooExportFactory;
 use Illuminate\Support\Facades\Gate;
 
 test('it will register and find exports', function () {
-    $exportify = new Exportify();
-    $factory = new FooExportFactory();
-    
+    $exportify = new Exportify;
+    $factory = new FooExportFactory;
+
     $exportify->register('foo', $factory);
 
     expect($exportify->find('foo'))
@@ -21,15 +21,15 @@ test('it will register and find exports', function () {
         ->and($exportify->find('foo')->exportable())
         ->toBeInstanceOf(Exportable::class);
 
-    expect(fn() => $exportify->find('non-existent'))
+    expect(fn () => $exportify->find('non-existent'))
         ->toThrow(ExportifyException::class, 'Export factory [non-existent] is not registered.');
 });
 
 test('it will filter exports by tag', function () {
-    $exportify = new Exportify();
-    $exportify->register('foo', new FooExportFactory());
-    $exportify->register('bar', new BarExportFactory());
-    $exportify->register('baz', new BazExportFactory());
+    $exportify = new Exportify;
+    $exportify->register('foo', new FooExportFactory);
+    $exportify->register('bar', new BarExportFactory);
+    $exportify->register('baz', new BazExportFactory);
 
     expect($exportify->tagged('common'))
         ->toBeInstanceOf(ExportableCollection::class)
@@ -42,8 +42,8 @@ test('it will filter exports by tag', function () {
 });
 
 test('it will filter available exports', function () {
-    $exportify = new Exportify();
-    $exportify->register('foo', new FooExportFactory());
+    $exportify = new Exportify;
+    $exportify->register('foo', new FooExportFactory);
 
     // Test with Gate allowing access
     Gate::partialMock();
@@ -67,13 +67,13 @@ test('it will filter available exports', function () {
 });
 
 test('it will return exportable collection for all', function () {
-    $exportify = new Exportify();
+    $exportify = new Exportify;
     expect($exportify->all())->toBeInstanceOf(ExportableCollection::class);
 });
 
 test('it will unregister export', function () {
-    $exportify = new Exportify();
-    $exportify->register('foo', new FooExportFactory());
+    $exportify = new Exportify;
+    $exportify->register('foo', new FooExportFactory);
     expect($exportify->all())->toHaveCount(1);
 
     $exportify->unregister('foo');
@@ -81,11 +81,11 @@ test('it will unregister export', function () {
 });
 
 test('it will flush all exports', function () {
-    $exportify = new Exportify();
-    $exportify->register('foo', new FooExportFactory());
-    $exportify->register('bar', new BarExportFactory());
+    $exportify = new Exportify;
+    $exportify->register('foo', new FooExportFactory);
+    $exportify->register('bar', new BarExportFactory);
     expect($exportify->all())->toHaveCount(2);
 
     $exportify->flush();
     expect($exportify->all())->toHaveCount(0);
-}); 
+});

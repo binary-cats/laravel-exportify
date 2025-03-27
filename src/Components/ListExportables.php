@@ -14,8 +14,7 @@ class ListExportables extends Component
      */
     public function __construct(
         public readonly string|array $tagged = []
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
@@ -33,6 +32,6 @@ class ListExportables extends Component
     protected function exporters(): Collection
     {
         return Exportify::available()
-            ->when($this->tagged, fn(Collection $all) => $all->tagged($this->tagged));
+            ->when($this->tagged, fn (Collection $all) => $all->tagged($this->tagged));
     }
-} 
+}

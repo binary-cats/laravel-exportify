@@ -7,8 +7,8 @@ use BinaryCats\Exportify\Facades\Exportify;
 use BinaryCats\Exportify\Tests\Fixtures\FooExportFactory;
 use Illuminate\Support\Facades\Gate;
 
-it('will_get_all_exports', function(): void {
-    $factory = new FooExportFactory();
+it('will_get_all_exports', function (): void {
+    $factory = new FooExportFactory;
     Exportify::register('foo', $factory);
 
     expect(Exportify::all())
@@ -16,8 +16,8 @@ it('will_get_all_exports', function(): void {
         ->toHaveCount(1);
 });
 
-it('will_get_available_exports', function(): void {
-    $factory = new FooExportFactory();
+it('will_get_available_exports', function (): void {
+    $factory = new FooExportFactory;
     Exportify::register('foo', $factory);
 
     Gate::shouldReceive('allows')
@@ -30,8 +30,8 @@ it('will_get_available_exports', function(): void {
         ->toHaveCount(1);
 });
 
-it('will_get_exports_by_tag', function(): void {
-    $factory = new FooExportFactory();
+it('will_get_exports_by_tag', function (): void {
+    $factory = new FooExportFactory;
     Exportify::register('foo', $factory);
 
     expect(Exportify::tagged('tag1'))
@@ -43,22 +43,22 @@ it('will_get_exports_by_tag', function(): void {
         ->toHaveCount(0);
 });
 
-it('will_find_export_by_name', function(): void {
-    $factory = new FooExportFactory();
+it('will_find_export_by_name', function (): void {
+    $factory = new FooExportFactory;
     Exportify::register('foo', $factory);
 
     expect(Exportify::find('foo'))
         ->toBeInstanceOf(ExportFactory::class);
 });
 
-it('will_throw_exception_when_export_not_found', function(): void {
-    expect(fn() => Exportify::find('non-existent'))
+it('will_throw_exception_when_export_not_found', function (): void {
+    expect(fn () => Exportify::find('non-existent'))
         ->toThrow(ExportifyException::class, 'Export factory [non-existent] is not registered.');
 });
 
-it('will_register_and_unregister_export', function(): void {
-    $factory = new FooExportFactory();
-    
+it('will_register_and_unregister_export', function (): void {
+    $factory = new FooExportFactory;
+
     // Register
     Exportify::register('foo', $factory);
     expect(Exportify::all())->toHaveCount(1);
@@ -68,6 +68,6 @@ it('will_register_and_unregister_export', function(): void {
     expect(Exportify::all())->toHaveCount(0);
 });
 
-beforeEach(function() {
+beforeEach(function () {
     Exportify::flush();
-}); 
+});

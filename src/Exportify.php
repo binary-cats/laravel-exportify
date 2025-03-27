@@ -19,8 +19,6 @@ class Exportify
 
     /**
      * Get all registered exports.
-     *
-     * @return ExportableCollection
      */
     public function all(): ExportableCollection
     {
@@ -29,8 +27,6 @@ class Exportify
 
     /**
      * Get all available exports for the current user.
-     *
-     * @return ExportableCollection
      */
     public function available(): ExportableCollection
     {
@@ -52,7 +48,7 @@ class Exportify
     public function find(string $name): ?ExportFactory
     {
         throw_unless(
-            Arr::has($this->exports, $name), 
+            Arr::has($this->exports, $name),
             ExportifyException::missingFactory($name)
         );
 
@@ -61,10 +57,6 @@ class Exportify
 
     /**
      * Register a new export.
-     *
-     * @param  string  $name
-     * @param  ExportFactory  $factory
-     * @return void
      */
     public function register(string $name, ExportFactory $factory): void
     {
@@ -73,9 +65,6 @@ class Exportify
 
     /**
      * Unregister an export.
-     *
-     * @param  string  $name
-     * @return void
      */
     public function unregister(string $name): void
     {

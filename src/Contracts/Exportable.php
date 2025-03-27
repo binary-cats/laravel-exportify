@@ -8,7 +8,6 @@ interface Exportable
      * Download the export.
      *
      * @param  array<string, mixed>  $parameters
-     * @return mixed
      */
     public function download(array $parameters = []): mixed;
 
@@ -16,7 +15,6 @@ interface Exportable
      * Queue the export for processing.
      *
      * @param  array<string, mixed>  $parameters
-     * @return mixed
      */
     public function queue(array $parameters = []): mixed;
 
@@ -24,7 +22,6 @@ interface Exportable
      * Get the raw data for the export.
      *
      * @param  array<string, mixed>  $parameters
-     * @return mixed
      */
     public function raw(array $parameters = []): mixed;
 
@@ -32,7 +29,6 @@ interface Exportable
      * Store the export.
      *
      * @param  array<string, mixed>  $parameters
-     * @return mixed
      */
     public function store(array $parameters = []): mixed;
 
@@ -42,4 +38,4 @@ interface Exportable
      * @return array<string>
      */
     public function tags(): array;
-} 
+}
