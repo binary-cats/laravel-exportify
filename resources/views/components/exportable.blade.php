@@ -1,0 +1,1 @@
+@livewire($exportFactory->livewire(), ['filters' => $exportFactory->defaults()])

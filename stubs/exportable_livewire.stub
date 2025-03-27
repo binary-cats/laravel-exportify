@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }};
+
+use Livewire\Component;
+use {{ factoryNamespace }}\{{ factoryClass }};
+
+class {{ class }} extends Component
+{
+    /**
+     * The export factory instance
+     */
+    protected {{ factoryClass }} $factory;
+
+    /**
+     * Create a new component instance
+     */
+    public function mount({{ factoryClass }} $factory): void
+    {
+        $this->factory = $factory;
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render()
+    {
+        return view('livewire.{{ view }}', [
+            'factory' => $this->factory,
+        ]);
+    }
+} 

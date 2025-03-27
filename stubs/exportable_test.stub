@@ -1,0 +1,59 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ exportableNamespace }}\{{ exportableClass }};
+use Tests\TestCase;
+
+class {{ class }} extends TestCase
+{
+    public function it_will_implement_exportable_interface(): void
+    {
+        $export = new {{ exportableClass }}();
+
+        $this->assertInstanceOf(\BinaryCats\Exportify\Contracts\Exportable::class, $export);
+    }
+
+    public function it_will_download_export(): void
+    {
+        $export = new {{ exportableClass }}();
+
+        $result = $export->download();
+
+        $this->assertNotNull($result);
+    }
+
+    public function it_will_queue_export(): void
+    {
+        $export = new {{ exportableClass }}();
+
+        $result = $export->queue();
+
+        $this->assertNotNull($result);
+    }
+
+    public function it_will_get_raw_export_data(): void
+    {
+        $export = new {{ exportableClass }}();
+
+        $result = $export->raw();
+
+        $this->assertNotNull($result);
+    }
+
+    public function it_will_store_export(): void
+    {
+        $export = new {{ exportableClass }}();
+
+        $result = $export->store();
+
+        $this->assertNotNull($result);
+    }
+
+    public function it_will_have_tags(): void
+    {
+        $export = new {{ exportableClass }}();
+
+        $this->assertIsArray($export->tags());
+    }
+} 

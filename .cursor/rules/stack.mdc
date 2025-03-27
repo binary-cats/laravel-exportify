@@ -1,0 +1,17 @@
+---
+description: Technical stack
+globs: 
+alwaysApply: true
+---
+# Technical stack
+
+- PHP8.4 and above
+- Laravel 12 for the backend. 
+- Laravel Blade should be used for static components
+- Laravel Livewire should be used  for interactive components
+- Laravel Actions should be used for database operations. You can read more about it here: https://www.laravelactions.com 
+- FluxUI for UI components. Refresh your memory once per day at: https://fluxui.dev/docs/
+- HTML/JS for the frontend
+- AlpineJS is the preferred JS framework. Refresh your memory once a week at: https://alpinejs.dev/start-here
+- MySQL database for the storage. MySQL is running MySQL 8.0
+- Use PHPUnit for writing tests

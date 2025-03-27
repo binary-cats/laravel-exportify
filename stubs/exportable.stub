@@ -1,0 +1,48 @@
+<?php
+
+namespace {{ namespace }};
+
+use BinaryCats\Exportify\Contracts\Exportable;
+
+class {{ class }} implements Exportable
+{
+    /**
+     * Download the export
+     */
+    public function download(array $parameters = []): mixed
+    {
+        // TODO: Implement download() method
+    }
+
+    /**
+     * Queue the export
+     */
+    public function queue(array $parameters = []): mixed
+    {
+        // TODO: Implement queue() method
+    }
+
+    /**
+     * Get raw data for the export
+     */
+    public function raw(array $parameters = []): mixed
+    {
+        // TODO: Implement raw() method
+    }
+
+    /**
+     * Store the export
+     */
+    public function store(array $parameters = []): mixed
+    {
+        // TODO: Implement store() method
+    }
+
+    /**
+     * Get the tags for this export
+     */
+    public function tags(): array
+    {
+        return [];
+    }
+} 

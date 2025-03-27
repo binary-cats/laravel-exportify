@@ -1,0 +1,34 @@
+<?php
+
+namespace {{ namespace }};
+
+use BinaryCats\Exportify\Contracts\ExportFactory;
+use BinaryCats\Exportify\Contracts\Exportable;
+use {{ exportableNamespace }}\{{ exportableClass }};
+
+class {{ class }} implements ExportFactory
+{
+    /**
+     * Create a new exportable instance
+     */
+    public function exportable(array $attributes = []): Exportable
+    {
+        return new {{ exportableClass }}();
+    }
+
+    /**
+     * Get the default attributes for the export
+     */
+    public function defaults(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get the Livewire component class for this export
+     */
+    public function livewire(): string
+    {
+        return \App\Livewire\{{ livewireClass }}::class;
+    }
+} 
