@@ -27,7 +27,7 @@ trait InteractsWithArguments
      *     If you provide the string $value, we will attempt to find
      *     the argument by its key, else, default
      */
-    public function arguments(array|string $value = null, $default = null): mixed
+    public function arguments(array|string|null $value = null, $default = null): mixed
     {
         if (is_array($value)) {
             $this->arguments = array_merge($this->arguments, $value);

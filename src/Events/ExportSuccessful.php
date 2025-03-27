@@ -20,8 +20,7 @@ class ExportSuccessful implements ShouldBroadcast
         public readonly string $exportFactory,
         public readonly string $filePath,
         public readonly string $disk
-    ) {
-    }
+    ) {}
 
     /**
      * Get the event broadcast name

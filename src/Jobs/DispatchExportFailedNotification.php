@@ -11,8 +11,7 @@ class DispatchExportFailedNotification
         public readonly string $exportFactory,
         public readonly string $filePath,
         public readonly string $disk
-    ) {
-    }
+    ) {}
 
     /**
      * If user is authenticated, an event will be dispatched

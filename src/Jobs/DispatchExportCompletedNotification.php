@@ -4,8 +4,8 @@ namespace BinaryCats\Exportify\Jobs;
 
 use BinaryCats\Exportify\Events\ExportSuccessful;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\SerializesModels;
 
 class DispatchExportCompletedNotification
@@ -18,8 +18,7 @@ class DispatchExportCompletedNotification
         public readonly string $exportFactory,
         public readonly string $filePath,
         public readonly string $disk
-    ) {
-    }
+    ) {}
 
     /**
      * If user is authenticated, an event will be dispatched
