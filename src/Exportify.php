@@ -52,7 +52,7 @@ class Exportify
     public function find(string $name): ?ExportFactory
     {
         throw_unless(
-            Arr::has($this->exports, $name), 
+            Arr::has($this->exports, $name),
             ExportifyException::missingFactory($name)
         );
 
