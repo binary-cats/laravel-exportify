@@ -6,9 +6,11 @@ use BinaryCats\Exportify\Contracts\HandlesExport;
 use BinaryCats\Exportify\Events\ExportFailed;
 use BinaryCats\Exportify\Events\ExportSuccessful;
 use BinaryCats\Exportify\Jobs\DispatchExportCompletedNotification;
+use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\User;
 use Livewire\Component;
 use Livewire\Livewire;
 use function Pest\Laravel\mock;
@@ -19,38 +21,42 @@ class DummyComponent extends Component
 
     public function render()
     {
-        return view('dummy-view');
+        return <<<'blade'
+<div>Fancy Pants</div>
+blade;
     }
 }
 
 beforeEach(function () {
     $this->exportable = mock(Exportable::class);
     $this->handler = mock(HandlesExport::class);
-    $this->guard = Auth::partialMock();
-    $this->user = mock(Authenticatable::class)->makePartial();
 });
 
-it('will_mount_exportify_trait_correctly', function (): void {
-    $this->exportable->shouldReceive('defaults')->once()->andReturn(['default' => 'value']);
+it('will_property_mount_the_exportable', function (): void {
+    
+    $exportable = FooExportable::make();
 
-    $component = new DummyComponent();
-    $component->mountWithExportify($this->exportable);
+    $user = mock(User::class, function ($mock) {
+        $mock->shouldReceive('getAuthIdentifier')
+        ->times(2)
+        ->andReturn(1);
+    })->makePartial();
+    
+    $component = Livewire::actingAs($user)
+        ->test(DummyComponent::class, ['exportable' => $exportable]);
 
-    expect($component->exportable)->toBe($this->exportable)
-        ->and($component->exportableArguments)->toBe(['default' => 'value']);
-});
-
-it('will_boot_exportify_trait_correctly', function (): void {
-    $this->guard->shouldReceive('id')->once()->andReturn(1);
-
-    $component = new DummyComponent();
-    $component->bootWithExportify($this->guard);
-
-    expect($component->listeners)->toHaveKey('echo:private-user.1,\\'.ExportSuccessful::class)
-        ->and($component->listeners)->toHaveKey('echo:private-user.1,\\'.ExportFailed::class);
+    $component
+        ->assertSet('exportable', $exportable)
+        ->assertSet('exportableArguments', ['bar' => 'baz']);
+        
+    expect($component->invade()->listeners)
+        ->toHaveKey('echo:private-user.1,\\'.ExportSuccessful::class)
+        ->toHaveKey('echo:private-user.1,\\'.ExportFailed::class);
 });
 
 it('will_handle_success_correctly', function (): void {
+    $exportable = FooExportable::make();
+
     Storage::fake('local');
     
     $event = [
@@ -58,9 +64,11 @@ it('will_handle_success_correctly', function (): void {
         'filePath' => 'exports/test.csv'
     ];
 
-    Storage::disk('local')->put('exports/test.csv', 'test content');
+    Storage::shouldReceive('download')
+        ->with('exports/test.csv')
+        ->andReturnSelf();
 
-    $component = Livewire::test(DummyComponent::class);
+    $component = Livewire::test(DummyComponent::class, ['exportable' => $exportable]);
     $component->call('handleSuccess', $event);
 
     $component->assertDispatched('exportify:success', $event);
