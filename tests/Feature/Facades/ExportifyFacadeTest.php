@@ -1,6 +1,7 @@
 <?php
 
 use BinaryCats\Exportify\Concerns\ExportableCollection;
+use BinaryCats\Exportify\Contracts\Exportable;
 use BinaryCats\Exportify\Contracts\ExportFactory;
 use BinaryCats\Exportify\Exceptions\ExportifyException;
 use BinaryCats\Exportify\Facades\Exportify;
@@ -21,6 +22,11 @@ it('will_get_available_exports', function (): void {
     
     Exportify::register('foo', $factory);
 
+    Gate::shouldReceive('getPolicyFor')
+        ->once()
+        ->with('foo')
+        ->andReturn(true);
+
     Gate::shouldReceive('allows')
         ->once()
         ->with('view', 'foo')
@@ -35,7 +41,7 @@ it('will_get_exports_by_tag', function (): void {
     $factory = FooExportable::make();
     Exportify::register('foo', $factory);
 
-    expect(Exportify::tagged('tag1'))
+    expect(Exportify::tagged('foo'))
         ->toBeInstanceOf(ExportableCollection::class)
         ->toHaveCount(1);
 
@@ -49,7 +55,7 @@ it('will_find_export_by_name', function (): void {
     Exportify::register('foo', $factory);
 
     expect(Exportify::find('foo'))
-        ->toBeInstanceOf(ExportFactory::class);
+        ->toBeInstanceOf(Exportable::class);
 });
 
 it('will_throw_exception_when_export_not_found', function (): void {

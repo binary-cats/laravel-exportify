@@ -2,7 +2,6 @@
 
 use BinaryCats\Exportify\ExportableConfig;
 use BinaryCats\Exportify\Tests\Fixtures\ExportableLivewireFixture;
-use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 use BinaryCats\Exportify\Tests\Fixtures\FakeExportHandler;
 
 it('will_create_config_with_valid_data', function (): void {
@@ -13,7 +12,7 @@ it('will_create_config_with_valid_data', function (): void {
     );
 
     expect($config)
-        ->handler->toBe(FooExportable::class)
+        ->handler->toBe(FakeExportHandler::class)
         ->livewire->toBe(ExportableLivewireFixture::class)
         ->defaults->toBe(['foo' => 'bar']);
 });
@@ -25,7 +24,7 @@ it('will_create_config_with_minimal_data', function (): void {
     );
 
     expect($config)
-        ->handler->toBe(FooExportable::class)
+        ->handler->toBe(FakeExportHandler::class)
         ->livewire->toBe(ExportableLivewireFixture::class)
         ->defaults->toBe([]);
 });
