@@ -3,6 +3,7 @@
 namespace BinaryCats\Exportify\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -17,9 +18,17 @@ class ExportFailed implements ShouldBroadcast
     public function __construct(
         public readonly Authenticatable $user,
         public readonly string $exportFactory,
-        public readonly string $filePath,
-        public readonly string $disk
     ) {}
+
+    /**
+     * Get the channels the event should be broadcast on
+     */
+    public function broadcastOn(): array
+    {
+        return [
+            new PrivateChannel('user.'.$this->user->getAuthIdentifier()),
+        ];
+    }
 
     /**
      * Get the event broadcast name
@@ -31,10 +40,12 @@ class ExportFailed implements ShouldBroadcast
     }
 
     /**
-     * Get the channels the event should be broadcast
+     * Get the data to broadcast with export-failed event.
      */
-    public function broadcastOn(): array
+    public function broadcastWith(): array
     {
-        return [];
+        return [
+            'exportFactory' => $this->exportFactory,
+        ];
     }
 }

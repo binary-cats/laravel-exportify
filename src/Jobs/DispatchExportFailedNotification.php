@@ -9,8 +9,6 @@ use Illuminate\Contracts\Auth\Guard;
 class DispatchExportFailedNotification
 {
     public function __construct(
-        public readonly string $filePath,
-        public readonly string $disk,
         public readonly string $exportFactory,
         public readonly ?Authenticatable $user = null
     ) {}
@@ -23,9 +21,7 @@ class DispatchExportFailedNotification
         ExportFailed::dispatchUnless(
             $this->user === null,
             $this->user,
-            $this->exportFactory,
-            $this->filePath,
-            $this->disk
+            $this->exportFactory
         );
     }
 }
