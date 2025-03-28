@@ -1,0 +1,31 @@
+<?php
+
+namespace {{ namespace }};
+
+use BinaryCats\Exportify\Exportable;
+use BinaryCats\Exportify\Concerns\ExportableConfig;
+
+class {{ class }} extends Exportable
+{
+    /**
+     * Get the exportable configuration   
+     */
+    public static function config(): ExportableConfig
+    {
+        return new ExportableConfig(
+        /*
+            handler:
+            livewire:
+            defaults:[]
+        */
+        );
+    }
+
+    /**
+     * Get the tags for the export
+     */
+    public function tags(): array
+    {
+        return [];
+    }
+} 

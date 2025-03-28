@@ -27,10 +27,10 @@ trait WithExportify
     /**
      * Mount the exportable
      */
-    public function mountWithExportify(): void
+    public function mountWithExportify(Exportable $exportable): void
     {
-
-        // $this->exportableArguments = $exportable->defaults();
+        $this->exportable = $exportable;
+        $this->exportableArguments = $exportable->defaults();
     }
 
     /**
