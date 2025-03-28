@@ -4,11 +4,11 @@ use BinaryCats\Exportify\Concerns\ExportableCollection;
 use BinaryCats\Exportify\Contracts\ExportFactory;
 use BinaryCats\Exportify\Exceptions\ExportifyException;
 use BinaryCats\Exportify\Facades\Exportify;
-use BinaryCats\Exportify\Tests\Fixtures\FooExportFactory;
+use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 use Illuminate\Support\Facades\Gate;
 
-it('will_get_all_exports', function (): void {
-    $factory = new FooExportFactory;
+it('will_get_handle_exportify_registration', function (): void {
+    $factory = FooExportable::make();
     Exportify::register('foo', $factory);
 
     expect(Exportify::all())
@@ -17,7 +17,8 @@ it('will_get_all_exports', function (): void {
 });
 
 it('will_get_available_exports', function (): void {
-    $factory = new FooExportFactory;
+    $factory = FooExportable::make();
+    
     Exportify::register('foo', $factory);
 
     Gate::shouldReceive('allows')
@@ -31,7 +32,7 @@ it('will_get_available_exports', function (): void {
 });
 
 it('will_get_exports_by_tag', function (): void {
-    $factory = new FooExportFactory;
+    $factory = FooExportable::make();
     Exportify::register('foo', $factory);
 
     expect(Exportify::tagged('tag1'))
@@ -44,7 +45,7 @@ it('will_get_exports_by_tag', function (): void {
 });
 
 it('will_find_export_by_name', function (): void {
-    $factory = new FooExportFactory;
+    $factory = FooExportable::make();
     Exportify::register('foo', $factory);
 
     expect(Exportify::find('foo'))
@@ -57,7 +58,7 @@ it('will_throw_exception_when_export_not_found', function (): void {
 });
 
 it('will_register_and_unregister_export', function (): void {
-    $factory = new FooExportFactory;
+    $factory = FooExportable::make();
 
     // Register
     Exportify::register('foo', $factory);

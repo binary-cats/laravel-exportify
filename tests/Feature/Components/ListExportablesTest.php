@@ -3,9 +3,9 @@
 namespace BinaryCats\Exportify\Tests\Feature\Components;
 
 use BinaryCats\Exportify\Facades\Exportify;
-use BinaryCats\Exportify\Tests\Fixtures\BarExportFactory;
+use BinaryCats\Exportify\Tests\Fixtures\BarExportable;
+use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 use BinaryCats\Exportify\Tests\Fixtures\ExportableLivewireFixture;
-use BinaryCats\Exportify\Tests\Fixtures\FooExportFactory;
 use Illuminate\Support\Facades\Gate;
 
 it('will_render_empty_state_when_no_exports', function (): void {
@@ -15,10 +15,14 @@ it('will_render_empty_state_when_no_exports', function (): void {
 
 it('will_render_list_of_exportables', function (): void {
 
-    Exportify::register('foo', new FooExportFactory);
-    Exportify::register('bar', new BarExportFactory);
+    Exportify::register('foo', FooExportable::make());
+    Exportify::register('bar', BarExportable::make());
 
-    // Mock Gate to allow access
+    Gate::shouldReceive('getPolicyFor')
+        ->twice()
+        ->withAnyArgs('foo', 'bar')
+        ->andReturnTrue();
+
     Gate::shouldReceive('allows')
         ->twice()
         ->with('view', \Mockery::anyOf('foo', 'bar'))
@@ -26,6 +30,5 @@ it('will_render_list_of_exportables', function (): void {
 
     $view = $this->blade('<x-exportify-list-exportables/>');
 
-    // Assert the Livewire component is present
     $view->assertSeeLivewire(ExportableLivewireFixture::class);
 });
