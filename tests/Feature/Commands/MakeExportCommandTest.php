@@ -20,4 +20,7 @@ it('will handle rendering a new exportable with a policy', function () {
         'name' => 'TestExportable',
         '--policy' => true,
     ])->assertSuccessful();
+
+    $this->assertFileExists($this->app->path('Exportables/TestExportable.php'));
+    $this->assertFileExists($this->app->path('Policies/TestExportablePolicy.php'));
 });
