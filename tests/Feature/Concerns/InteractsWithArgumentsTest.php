@@ -23,4 +23,3 @@ it('handle interaction with arguments via a trait', function (): void {
     $this->assertEquals('123', $withArguments->arguments('does-not-exist', '123'));
     $this->assertnull($withArguments->arguments('does-not-exist'));
 });
-
