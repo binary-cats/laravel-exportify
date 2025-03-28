@@ -5,7 +5,7 @@ namespace BinaryCats\Exportify\Tests\Feature\Components;
 use BinaryCats\Exportify\Tests\Fixtures\ExportableLivewireFixture;
 use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 
-it('will_render_exportable_component', function (): void {
+it('will_render_exportable_blade_component', function (): void {
 
     $exportable = FooExportable::make();
 
