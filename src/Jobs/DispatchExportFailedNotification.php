@@ -3,14 +3,15 @@
 namespace BinaryCats\Exportify\Jobs;
 
 use BinaryCats\Exportify\Events\ExportFailed;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 
 class DispatchExportFailedNotification
 {
     public function __construct(
-        public readonly string $exportFactory,
         public readonly string $filePath,
-        public readonly string $disk
+        public readonly string $disk,
+        public readonly ?Authenticatable $user = null
     ) {}
 
     /**
@@ -18,9 +19,9 @@ class DispatchExportFailedNotification
      */
     public function handle(Guard $guard): void
     {
-        ExportFailed::dispatchIf($guard->check(),
-            $guard->user(),
-            $this->exportFactory,
+        ExportFailed::dispatchUnless(
+            $this->user === null,
+            $this->user,
             $this->filePath,
             $this->disk
         );
