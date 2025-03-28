@@ -41,10 +41,9 @@ class MakeExportCommand extends GeneratorCommand
             return self::FAILURE;
         }
 
-        // Create a policy if requested
         if ($this->option('policy')) {
             $this->call('make:policy', [
-                'name' => $this->argument('name').'Policy',
+                'name' => str('Policy')->prepend($this->argument('name'))->value(),
                 '--model' => $this->argument('name'),
             ]);
         }
@@ -57,7 +56,7 @@ class MakeExportCommand extends GeneratorCommand
      */
     protected function getStub(): string
     {
-        return __DIR__.'stubs/exportable.stub';
+        return __DIR__.'/stubs/exportable.stub';
     }
 
     /**
