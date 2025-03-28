@@ -36,15 +36,20 @@ class MakeExportCommand extends GeneratorCommand
      */
     public function handle(): int
     {
-        // First create the exportable class
         if (parent::handle() === false) {
             return self::FAILURE;
         }
 
         if ($this->option('policy')) {
+
+            $policy = str('Policy')
+                ->prepend($this->argument('name'))
+                ->value();
+
             $this->call('make:policy', [
-                'name' => str('Policy')->prepend($this->argument('name'))->value(),
+                'name' => $policy,
                 '--model' => $this->argument('name'),
+                '--test' => $this->option('test'),
             ]);
         }
 
