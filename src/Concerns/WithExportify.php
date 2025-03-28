@@ -20,8 +20,8 @@ trait WithExportify
      */
     public function bootWithExportify(Guard $guard): void
     {
-        $this->listeners['echo:private-user.' .$guard->id() .',\\' . ExportSuccessful::class ] = 'handleSuccess';
-        $this->listeners['echo:private-user.' .$guard->id() .',\\' . ExportFailed::class ] = 'handleFail';
+        $this->listeners['echo:private-user.'.$guard->id().',\\'.ExportSuccessful::class] = 'handleSuccess';
+        $this->listeners['echo:private-user.'.$guard->id().',\\'.ExportFailed::class] = 'handleFail';
     }
 
     public function handleSuccess(array $event)
@@ -33,8 +33,8 @@ trait WithExportify
     public function download(Guard $guard): void
     {
         $this->exportable()
-            ->tap(function (Exportable $export) use ($guard) {
-                $filePath = Str::uuid() . '/' . $export->fileName();
+            ->tap(function (Exportable $export) {
+                $filePath = Str::uuid().'/'.$export->fileName();
 
                 $export->queue(
                     filePath: $filePath,
@@ -44,7 +44,7 @@ trait WithExportify
                         $this->exportFactory,
                         $filePath,
                         $this->disk
-                    )
+                    ),
                 ]);
             });
     }
