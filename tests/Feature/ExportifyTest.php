@@ -71,6 +71,21 @@ test('it will filter available exports', function () {
     expect($exportify->available())->toHaveCount(0);
 });
 
+test('it will filter available exports without policies', function () {
+    $exportify = new Exportify;
+    $exportify->register('foo', FooExportable::make());
+
+    config()->set('exportify.policy.default', true);
+
+    expect($exportify->available())
+        ->toBeInstanceOf(ExportableCollection::class)
+        ->toHaveCount(1);
+
+    config()->set('exportify.policy.default', false);
+
+    expect($exportify->available())->toHaveCount(0);
+});
+
 test('it will return exportable collection for all', function () {
     $exportify = new Exportify;
     expect($exportify->all())->toBeInstanceOf(ExportableCollection::class);
