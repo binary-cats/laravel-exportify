@@ -36,8 +36,6 @@ class MakeExportCommand extends GeneratorCommand
      */
     public function handle(): int
     {
-        dd(parent::handle());
-
         if (parent::handle() === false) {
             return self::FAILURE;
         }

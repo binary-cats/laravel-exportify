@@ -3,8 +3,8 @@
 namespace BinaryCats\Exportify\Tests\Feature\Commands;
 
 beforeEach(function () {
-    $this->app->make('files')->deleteDirectory($this->app->appPath('Exportables'), true);
-    $this->app->make('files')->deleteDirectory($this->app->basePath('tests'), true);
+    $this->app->make('files')->deleteDirectory(app_path('Exportables'), true);
+    $this->app->make('files')->deleteDirectory(base_path('tests'), true);
 });
 
 it('will handle rendering a new exportable', function () {
