@@ -2,6 +2,11 @@
 
 namespace BinaryCats\Exportify\Tests\Feature\Commands;
 
+beforeEach(function () {
+    $this->app->make('files')->deleteDirectory($this->app->appPath('Exportables'), true);
+    $this->app->make('files')->deleteDirectory($this->app->basePath('tests'), true);
+});
+
 it('will handle rendering a new exportable', function () {
     $this->artisan('make:exportify', [
         'name' => 'TestExportable',
