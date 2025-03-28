@@ -24,12 +24,15 @@ class ExportableClass
      */
     public function handle(Component $component): void
     {
-        if (is_string($this->exportable)) {
-            $component->exportable = app(Exportify::class)->find($this->exportable);
+        $component->fill(['exportable' => $this->exportable()]);
+    }
 
-            return;
+    private function exportable(): Exportable
+    {
+        if (is_string($this->exportable)) {
+            return app(Exportify::class)->find($this->exportable);
         }
 
-        $component->exportable = $this->exportable;
+        return $this->exportable;
     }
 }
