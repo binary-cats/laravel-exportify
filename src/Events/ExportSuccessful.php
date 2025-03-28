@@ -24,16 +24,7 @@ class ExportSuccessful implements ShouldBroadcast
     }
 
     /**
-     * Get the event broadcast name
-     */
-    public function broadcastAs(): string
-    {
-        return str($this->exportFactory)
-            ->append('\\Success');
-    }
-
-    /**
-     * Get the channels the event should be broadcast
+     * Get the channels the export-successful event should be broadcast
      */
     public function broadcastOn(): array
     {
@@ -42,6 +33,9 @@ class ExportSuccessful implements ShouldBroadcast
         ];
     }
 
+    /**
+     * Get the data to broadcast with export-successful event.
+     */
     public function broadcastWith(): array
     {
         return [

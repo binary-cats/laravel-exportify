@@ -2,6 +2,7 @@
 
 namespace BinaryCats\Exportify\Facades;
 
+use BinaryCats\Exportify\Concerns\ExportableCollection;
 use BinaryCats\Exportify\Contracts\Exportable;
 use Illuminate\Support\Facades\Facade;
 
