@@ -2,7 +2,6 @@
 
 use BinaryCats\Exportify\Concerns\ExportableCollection;
 use BinaryCats\Exportify\Contracts\Exportable;
-use BinaryCats\Exportify\Contracts\ExportFactory;
 use BinaryCats\Exportify\Exceptions\ExportifyException;
 use BinaryCats\Exportify\Facades\Exportify;
 use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
@@ -19,7 +18,7 @@ it('will_get_handle_exportify_registration', function (): void {
 
 it('will_get_available_exports', function (): void {
     $factory = FooExportable::make();
-    
+
     Exportify::register('foo', $factory);
 
     Gate::shouldReceive('getPolicyFor')

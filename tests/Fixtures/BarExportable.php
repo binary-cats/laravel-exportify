@@ -12,7 +12,7 @@ class BarExportable extends Exportable
         return new ExportableConfig(
             handler: FakeExportHandler::class,
             livewire: ExportableLivewireFixture::class,
-            defaults:[]
+            defaults: []
         );
     }
 

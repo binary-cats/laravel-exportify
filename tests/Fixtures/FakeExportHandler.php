@@ -2,8 +2,8 @@
 
 namespace BinaryCats\Exportify\Tests\Fixtures;
 
-use BinaryCats\Exportify\Contracts\HandlesExport;
 use BinaryCats\Exportify\Concerns\InteractsWithArguments;
+use BinaryCats\Exportify\Contracts\HandlesExport;
 
 class FakeExportHandler implements HandlesExport
 {

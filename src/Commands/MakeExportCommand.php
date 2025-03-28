@@ -44,7 +44,7 @@ class MakeExportCommand extends GeneratorCommand
         // Create a policy if requested
         if ($this->option('policy')) {
             $this->call('make:policy', [
-                'name' => $this->argument('name') . 'Policy',
+                'name' => $this->argument('name').'Policy',
                 '--model' => $this->argument('name'),
             ]);
         }

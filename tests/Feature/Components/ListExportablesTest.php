@@ -4,8 +4,8 @@ namespace BinaryCats\Exportify\Tests\Feature\Components;
 
 use BinaryCats\Exportify\Facades\Exportify;
 use BinaryCats\Exportify\Tests\Fixtures\BarExportable;
-use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 use BinaryCats\Exportify\Tests\Fixtures\ExportableLivewireFixture;
+use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 use Illuminate\Support\Facades\Gate;
 
 it('will_render_empty_state_when_no_exports', function (): void {
