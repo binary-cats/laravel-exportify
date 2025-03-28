@@ -3,13 +3,13 @@
 namespace BinaryCats\Exportify\Tests\Feature\Components;
 
 use BinaryCats\Exportify\Tests\Fixtures\ExportableLivewireFixture;
-use BinaryCats\Exportify\Tests\Fixtures\FooExportFactory;
+use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 
-it('will_render_exportable_component', function (): void {
+it('will_render_exportable_blade_component', function (): void {
 
-    $factory = new FooExportFactory;
+    $exportable = FooExportable::make();
 
-    $blade = $this->blade('<x-exportify-exportable :export-factory="$factory" />', ['factory' => $factory]);
+    $blade = $this->blade('<x-exportify-exportable :exportable="$exportable" />', ['exportable' => $exportable]);
 
     $blade->assertSeeLivewire(ExportableLivewireFixture::class);
 });

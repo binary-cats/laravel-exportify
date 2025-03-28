@@ -2,32 +2,22 @@
 
 namespace BinaryCats\Exportify\Tests\Fixtures;
 
-use BinaryCats\Exportify\Contracts\Exportable;
+use BinaryCats\Exportify\Exportable;
+use BinaryCats\Exportify\ExportableConfig;
 
-class BarExportable implements Exportable
+class BarExportable extends Exportable
 {
-    public function download(array $parameters = []): mixed
+    public static function config(): ExportableConfig
     {
-        return 'bar:test';
-    }
-
-    public function queue(array $parameters = []): mixed
-    {
-        return 'bar:test';
-    }
-
-    public function raw(array $parameters = []): mixed
-    {
-        return 'bar:test';
-    }
-
-    public function store(array $parameters = []): mixed
-    {
-        return 'bar:test';
+        return new ExportableConfig(
+            handler: FakeExportHandler::class,
+            livewire: ExportableLivewireFixture::class,
+            defaults: []
+        );
     }
 
     public function tags(): array
     {
-        return ['tag2', 'common'];
+        return ['bar', 'common'];
     }
 }

@@ -17,9 +17,8 @@ class ExportSuccessful implements ShouldBroadcast
 
     public function __construct(
         public readonly Authenticatable $user,
-        public readonly string $exportFactory,
         public readonly string $filePath,
-        public readonly string $disk
+        public readonly ?string $disk = null
     ) {}
 
     /**

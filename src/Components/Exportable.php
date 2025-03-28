@@ -2,14 +2,15 @@
 
 namespace BinaryCats\Exportify\Components;
 
-use BinaryCats\Exportify\Contracts\ExportFactory;
+use BinaryCats\Exportify\Contracts\Exportable as ExportableContract;
+use BinaryCats\Exportify\Facades\Exportify;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Exportable extends Component
 {
     public function __construct(
-        public readonly ExportFactory $exportFactory
+        protected readonly ExportableContract|string $exportable
     ) {}
 
     /**
@@ -17,6 +18,16 @@ class Exportable extends Component
      */
     public function render(): View
     {
-        return view('exportify::components.exportable');
+        return view('exportify::components.exportable')
+            ->with('exportable', $this->exportable());
+    }
+
+    private function exportable(): ExportableContract
+    {
+        if (is_string($this->exportable)) {
+            return Exportify::find($this->exportable);
+        }
+
+        return $this->exportable;
     }
 }

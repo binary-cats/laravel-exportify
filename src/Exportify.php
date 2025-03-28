@@ -31,7 +31,13 @@ class Exportify
     public function available(): ExportableCollection
     {
         return $this->all()
-            ->filter(fn (ExportFactory $factory, string $name) => Gate::allows('view', $name));
+            ->filter(function (Exportable $exportable, string $name) {
+                if (Gate::getPolicyFor($name)) {
+                    return Gate::allows(config('exportify.policy.name', 'view'), $name);
+                }
+
+                return config('exportify.policy.default', false);
+            });
     }
 
     /**
@@ -45,7 +51,7 @@ class Exportify
     /**
      * Find an export by name.
      */
-    public function find(string $name): ?ExportFactory
+    public function find(string $name): ?Exportable
     {
         throw_unless(
             Arr::has($this->exports, $name),
@@ -58,9 +64,9 @@ class Exportify
     /**
      * Register a new export.
      */
-    public function register(string $name, ExportFactory $factory): void
+    public function register(string $name, Exportable $exportable): void
     {
-        $this->exports[$name] = $factory;
+        $this->exports[$name] = $exportable;
     }
 
     /**

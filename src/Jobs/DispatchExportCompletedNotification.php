@@ -3,7 +3,7 @@
 namespace BinaryCats\Exportify\Jobs;
 
 use BinaryCats\Exportify\Events\ExportSuccessful;
-use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\SerializesModels;
 
@@ -13,20 +13,19 @@ class DispatchExportCompletedNotification
     use SerializesModels;
 
     public function __construct(
-        public readonly string $exportFactory,
         public readonly string $filePath,
-        public readonly string $disk
+        public readonly ?string $disk = null,
+        public readonly ?Authenticatable $user = null
     ) {}
 
     /**
      * If user is authenticated, an event will be dispatched
      */
-    public function handle(Guard $guard): void
+    public function handle(): void
     {
-        ExportSuccessful::dispatchIf(
-            $guard->check(),
-            $guard->user(),
-            $this->exportFactory,
+        ExportSuccessful::dispatchUnless(
+            $this->user === null,
+            $this->user,
             $this->filePath,
             $this->disk
         );

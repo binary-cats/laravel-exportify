@@ -2,7 +2,7 @@
 
 namespace BinaryCats\Exportify\Concerns;
 
-use BinaryCats\Exportify\Contracts\ExportFactory;
+use BinaryCats\Exportify\Contracts\Exportable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -15,10 +15,7 @@ class ExportableCollection extends Collection
     {
         $tags = Arr::wrap($tags);
 
-        return $this->filter(function (ExportFactory $factory) use ($tags) {
-
-            $exportable = $factory->exportable();
-
+        return $this->filter(function (Exportable $exportable) use ($tags) {
             return collect($exportable->tags())
                 ->intersect($tags)
                 ->isNotEmpty();

@@ -2,31 +2,28 @@
 
 namespace BinaryCats\Exportify\Contracts;
 
-use Illuminate\Foundation\Bus\PendingDispatch;
-
 interface Exportable
 {
     /**
-     * Download the export.
-     *
-     * @param  array<string, mixed>  $parameters
+     * Get the config for this export.
      */
-    public function download(array $parameters = []): mixed;
+    public static function config(): ExportableConfig;
 
     /**
-     * Queue the export for processing.
+     * Get the default arguments for this export.
      */
-    public function queue(string $filePath, string $disk): PendingDispatch;
+    public function defaults(): array;
 
     /**
-     * Get the raw data for the export.
+     * Get the handler for this export.
      */
-    public function raw(array $parameters = []): mixed;
+    public function handler(array $arguments = []): HandlesExport;
 
     /**
-     * Store the export.
+     * Get the name of the Livewire component for this export.
+     * The value will be used with @livewire directive.
      */
-    public function store(string $filePath, string $disk): mixed;
+    public function livewire(): string;
 
     /**
      * Get the tags for this export.

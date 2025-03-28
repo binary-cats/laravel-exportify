@@ -1,25 +1,24 @@
 <?php
 
 use BinaryCats\Exportify\Concerns\ExportableCollection;
-use BinaryCats\Exportify\Contracts\Exportable;
-use BinaryCats\Exportify\Contracts\ExportFactory;
+use BinaryCats\Exportify\Contracts\HandlesExport;
 use BinaryCats\Exportify\Exceptions\ExportifyException;
 use BinaryCats\Exportify\Exportify;
-use BinaryCats\Exportify\Tests\Fixtures\BarExportFactory;
-use BinaryCats\Exportify\Tests\Fixtures\BazExportFactory;
-use BinaryCats\Exportify\Tests\Fixtures\FooExportFactory;
+use BinaryCats\Exportify\Tests\Fixtures\BarExportable;
+use BinaryCats\Exportify\Tests\Fixtures\BazExportable;
+use BinaryCats\Exportify\Tests\Fixtures\FooExportable;
 use Illuminate\Support\Facades\Gate;
 
 test('it will register and find exports', function () {
     $exportify = new Exportify;
-    $factory = new FooExportFactory;
+    $factory = FooExportable::make();
 
     $exportify->register('foo', $factory);
 
     expect($exportify->find('foo'))
-        ->toBeInstanceOf(ExportFactory::class)
-        ->and($exportify->find('foo')->exportable())
-        ->toBeInstanceOf(Exportable::class);
+        ->toBeInstanceOf(FooExportable::class)
+        ->and($exportify->find('foo')->handler())
+        ->toBeInstanceOf(HandlesExport::class);
 
     expect(fn () => $exportify->find('non-existent'))
         ->toThrow(ExportifyException::class, 'Export factory [non-existent] is not registered.');
@@ -27,41 +26,62 @@ test('it will register and find exports', function () {
 
 test('it will filter exports by tag', function () {
     $exportify = new Exportify;
-    $exportify->register('foo', new FooExportFactory);
-    $exportify->register('bar', new BarExportFactory);
-    $exportify->register('baz', new BazExportFactory);
+    $exportify->register('foo', FooExportable::make());
+    $exportify->register('bar', BarExportable::make());
+    $exportify->register('baz', BazExportable::make());
 
     expect($exportify->tagged('common'))
         ->toBeInstanceOf(ExportableCollection::class)
         ->toHaveCount(2);
 
-    expect($exportify->tagged('tag1'))->toHaveCount(1);
-    expect($exportify->tagged('tag2'))->toHaveCount(1);
-    expect($exportify->tagged('tag3'))->toHaveCount(1);
-    expect($exportify->tagged(['tag1', 'common']))->toHaveCount(2);
+    expect($exportify->tagged('foo'))->toHaveCount(1);
+    expect($exportify->tagged('bar'))->toHaveCount(1);
+    expect($exportify->tagged('baz'))->toHaveCount(1);
+    expect($exportify->tagged(['foo', 'common']))->toHaveCount(2);
 });
 
 test('it will filter available exports', function () {
     $exportify = new Exportify;
-    $exportify->register('foo', new FooExportFactory);
+    $exportify->register('foo', FooExportable::make());
 
-    // Test with Gate allowing access
-    Gate::partialMock();
+    Gate::shouldReceive('getPolicyFor')
+        ->once()
+        ->with('foo')
+        ->andReturnTrue();
+
+    Gate::shouldReceive('getPolicyFor')
+        ->once()
+        ->with('foo')
+        ->andReturnTrue();
+
     Gate::shouldReceive('allows')
         ->once()
         ->with('view', 'foo')
-        ->andReturn(true);
+        ->andReturnTrue();
 
     expect($exportify->available())
         ->toBeInstanceOf(ExportableCollection::class)
         ->toHaveCount(1);
 
-    // Test with Gate denying access
-    Gate::partialMock();
     Gate::shouldReceive('allows')
         ->once()
         ->with('view', 'foo')
         ->andReturn(false);
+
+    expect($exportify->available())->toHaveCount(0);
+});
+
+test('it will filter available exports without policies', function () {
+    $exportify = new Exportify;
+    $exportify->register('foo', FooExportable::make());
+
+    config()->set('exportify.policy.default', true);
+
+    expect($exportify->available())
+        ->toBeInstanceOf(ExportableCollection::class)
+        ->toHaveCount(1);
+
+    config()->set('exportify.policy.default', false);
 
     expect($exportify->available())->toHaveCount(0);
 });
@@ -73,7 +93,7 @@ test('it will return exportable collection for all', function () {
 
 test('it will unregister export', function () {
     $exportify = new Exportify;
-    $exportify->register('foo', new FooExportFactory);
+    $exportify->register('foo', FooExportable::make());
     expect($exportify->all())->toHaveCount(1);
 
     $exportify->unregister('foo');
@@ -82,8 +102,8 @@ test('it will unregister export', function () {
 
 test('it will flush all exports', function () {
     $exportify = new Exportify;
-    $exportify->register('foo', new FooExportFactory);
-    $exportify->register('bar', new BarExportFactory);
+    $exportify->register('foo', FooExportable::make());
+    $exportify->register('bar', BarExportable::make());
     expect($exportify->all())->toHaveCount(2);
 
     $exportify->flush();

@@ -22,14 +22,14 @@ class ListExportables extends Component
     public function render(): View
     {
         return view('exportify::components.list-exportables', [
-            'exports' => $this->exporters(),
+            'exportables' => $this->exportables(),
         ]);
     }
 
     /**
-     * Get the exporters that should be displayed.
+     * Get the exportables that should be displayed.
      */
-    protected function exporters(): Collection
+    protected function exportables(): Collection
     {
         return Exportify::available()
             ->when($this->tagged, fn (Collection $all) => $all->tagged($this->tagged));
