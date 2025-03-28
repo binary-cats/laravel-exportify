@@ -11,36 +11,53 @@ abstract class Exportable implements ExportableContract, Wireable
 {
     use Tappable;
 
-    protected ?HandlesExport $handler = null;
-
     public function __construct(
         private readonly ExportableConfig $config
     ) {}
 
+    /**
+     * Statically access the exportable.
+     */
+    public static function make(): static
+    {
+        return app(static::class, ['config' => static::config()]);
+    }
+
+    /**
+     * Get the default arguments for the exportable.
+     */
     public function defaults(): array
     {
         return $this->config->defaults;
     }
 
+    /**
+     * Get the handler for the exportable.
+     */
     public function handler(array $arguments = []): HandlesExport
     {
-        if (is_null($this->handler)) {
-            $this->handler = $this->config->handler();
-        }
-
-        return $this->handler->arguments($arguments);
+        return $this->config->handler($arguments);
     }
 
+    /**
+     * Get the livewire component for the exportable.
+     */
     public function livewire(): string
     {
         return $this->config->livewire;
     }
 
+    /**
+     * Convert the exportable to a livewire.
+     */
     public function toLivewire(): array
     {
         return $this->config->toArray();
     }
 
+    /**
+     * Convert the livewire back to an exportable.
+     */
     public static function fromLivewire($value)
     {
         return new static(
