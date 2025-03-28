@@ -1,1 +1,3 @@
-@livewire($exportFactory->livewire(), ['filters' => $exportFactory->defaults()])
+@livewire($exportable->livewire(), [
+    'exportable' => $exportable
+])

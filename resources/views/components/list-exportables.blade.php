@@ -1,6 +1,6 @@
 <section {{ $attributes }}>
-    @forelse($exports as $exportFactory)
-        <x-exportify::exportable :$exportFactory />
+    @forelse($exportables as $exportable)
+        <x-exportify::exportable :$exportable />
     @empty
         {{ $empty ?? 'No exports available.' }}
     @endforelse

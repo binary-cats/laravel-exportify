@@ -2,14 +2,14 @@
 
 namespace BinaryCats\Exportify\Components;
 
-use BinaryCats\Exportify\Contracts\ExportFactory;
+use BinaryCats\Exportify\Contracts\Exportable as ExportableContract;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Exportable extends Component
 {
     public function __construct(
-        public readonly ExportFactory $exportFactory
+        public readonly ExportableContract $exportable
     ) {}
 
     /**
