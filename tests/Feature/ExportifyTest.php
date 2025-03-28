@@ -1,8 +1,7 @@
 <?php
 
 use BinaryCats\Exportify\Concerns\ExportableCollection;
-use BinaryCats\Exportify\Contracts\Exportable;
-use BinaryCats\Exportify\Contracts\ExportFactory;
+use BinaryCats\Exportify\Contracts\HandlesExport;
 use BinaryCats\Exportify\Exceptions\ExportifyException;
 use BinaryCats\Exportify\Exportify;
 use BinaryCats\Exportify\Tests\Fixtures\BarExportable;
@@ -17,9 +16,9 @@ test('it will register and find exports', function () {
     $exportify->register('foo', $factory);
 
     expect($exportify->find('foo'))
-        ->toBeInstanceOf(ExportFactory::class)
-        ->and($exportify->find('foo')->exportable())
-        ->toBeInstanceOf(Exportable::class);
+        ->toBeInstanceOf(FooExportable::class)
+        ->and($exportify->find('foo')->handler())
+        ->toBeInstanceOf(HandlesExport::class);
 
     expect(fn () => $exportify->find('non-existent'))
         ->toThrow(ExportifyException::class, 'Export factory [non-existent] is not registered.');
@@ -45,19 +44,25 @@ test('it will filter available exports', function () {
     $exportify = new Exportify;
     $exportify->register('foo', FooExportable::make());
 
-    // Test with Gate allowing access
-    Gate::partialMock();
+    Gate::shouldReceive('getPolicyFor')
+        ->once()
+        ->with('foo')
+        ->andReturnTrue();
+
+    Gate::shouldReceive('getPolicyFor')
+        ->once()
+        ->with('foo')
+        ->andReturnTrue();
+
     Gate::shouldReceive('allows')
         ->once()
         ->with('view', 'foo')
-        ->andReturn(true);
+        ->andReturnTrue();
 
     expect($exportify->available())
         ->toBeInstanceOf(ExportableCollection::class)
         ->toHaveCount(1);
 
-    // Test with Gate denying access
-    Gate::partialMock();
     Gate::shouldReceive('allows')
         ->once()
         ->with('view', 'foo')
