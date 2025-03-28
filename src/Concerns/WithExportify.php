@@ -17,7 +17,6 @@ trait WithExportify
 {
     public Exportable $exportable;
 
-
     public $exportable_disk;
 
     /**
@@ -28,9 +27,10 @@ trait WithExportify
     /**
      * Mount the exportable
      */
-    public function mountWithExportify(Exportable $exportable): void
+    public function mountWithExportify(): void
     {
-        $this->exportableArguments = $exportable->defaults();
+
+        // $this->exportableArguments = $exportable->defaults();
     }
 
     /**
