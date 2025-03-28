@@ -14,7 +14,7 @@ class DispatchExportCompletedNotification
 
     public function __construct(
         public readonly string $filePath,
-        public readonly string $disk,
+        public readonly ?string $disk = null,
         public readonly ?Authenticatable $user = null
     ) {}
 

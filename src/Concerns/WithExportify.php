@@ -17,6 +17,8 @@ trait WithExportify
 {
     public Exportable $exportable;
 
+    public $exportable_disk;
+
     /**
      * Filtering arguments
      */
@@ -75,25 +77,29 @@ trait WithExportify
 
             $handler->queue(
                 filePath: $filePath = $handler->fileName(),
-                disk: $this->disk
+                disk: $this->exportable_disk
             )->chain([
                 new DispatchExportCompletedNotification(
                     filePath: $filePath,
-                    disk: $this->disk,
+                    disk: $this->exportable_disk,
                     user: $guard->user(),
                 ),
             ]);
         });
     }
 
-    protected function exportable(): Exportable
-    {
-        return $this->exportable;
-    }
-
+    /**
+     * Get the exportable handler with the valida arguments
+     */
     protected function exportableHandler(): HandlesExport
     {
-        return $this->exportable()
-            ->handler($this->all());
+        $arguments = $this->all();
+
+        if (method_exists($this, 'validateExportableAttributes')) {
+            $arguments = $this->validateExportableAttributes();
+        }
+
+        return $this->exportable
+            ->handler($arguments);
     }
 }

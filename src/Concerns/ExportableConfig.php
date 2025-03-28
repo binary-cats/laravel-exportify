@@ -8,15 +8,6 @@ use Webmozart\Assert\Assert;
 
 final readonly class ExportableConfig
 {
-    /** @var class-string<Exportable> */
-    public readonly string $handler;
-
-    /** @var array<string, mixed> */
-    public readonly array $defaults;
-
-    /** @var class-string<Component> */
-    public readonly string $livewire;
-
     public function __construct(
         public readonly string $handler,
         public readonly array $defaults,
