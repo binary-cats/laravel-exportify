@@ -1,6 +1,9 @@
 # Laravel Exportify
 
-A Laravel package that provides a unified interface for handling your exports (Excel, PDF, etc.) and support for Livewire
+A Laravel package that provides a unified interface for handling your exports (Excel, PDF, etc.) and support for Livewire.
+====
+> It is a work in progress, subject to change, please act accordingly
+====
 
 ## Installation
 
