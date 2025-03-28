@@ -36,6 +36,8 @@ class MakeExportCommand extends GeneratorCommand
      */
     public function handle(): int
     {
+        dd(parent::handle());
+
         if (parent::handle() === false) {
             return self::FAILURE;
         }
@@ -49,7 +51,6 @@ class MakeExportCommand extends GeneratorCommand
             $this->call('make:policy', [
                 'name' => $policy,
                 '--model' => $this->argument('name'),
-                '--test' => $this->option('test'),
             ]);
         }
 
